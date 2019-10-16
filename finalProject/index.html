@@ -25,14 +25,32 @@
     <div id="page">
         
         <img src="pic/1.png" id="profilePic" />
-    
         <div id="contact-info">
             <h1 class="fullName">Firhan A.</h1>
             <p>
-                Name: <span class="Name">Firhan Anusasanabut</span><br />
+                <input type="text" id="changeName"><button onclick="changeName()" onkeydown="alertS()">change name</button><br />
+                <script>
+                    
+                    function changeName(){
+                        var inputText = document.getElementById("changeName");
+                        document.getElementById("Name").innerHTML = inputText.value;
+                    }
+                </script>
+                Name: <span id="Name">Firhan Anusasanabut</span><br />
                 NickName: <span class="nickName">Ang</span><br /> 
                 Tel:<span class="tel">+6682480XXX</span><br />
-                Email: <a class="email" href="mailto:firhan.anu@gmail.com">firhan.anu@gmail.com</a>
+                Email: <a class="email" onmouseover="changeColor()" onmouseout="normalColor()" href="mailto:firhan.anu@gmail.com">firhan.anu@gmail.com</a>
+                <script>
+
+                    function changeColor(){
+                        document.querySelector("a").style.color = "#666";
+                    }
+
+                    function normalColor(){
+                        document.querySelector("a").style.color = "";
+                    }
+
+                </script>
             </p>
         </div>
 
@@ -43,6 +61,16 @@
                     quis nostrud exercitation ullamco laboris nisi ut aliquip 
                     ex ea commodo consequat. 
                 </p>
+                
+                <button onclick="changeBg()">change background</button>
+                <script>
+                    var color = ["#22f3e0","#f368e0","#ee5253","#5f27cd"];
+                    var i = 0;
+                        function changeBg(){
+                            i = i < color.length ? ++i : 0;
+                            document.querySelector("body").style.background = color[i];
+                        }
+                </script>
         </div>
 
         <div class="clear"></div>
@@ -63,11 +91,76 @@
                 <dd>
                     <h2>Skills</h2>
 
+                    <input type="text" id="txt">
+                    <button onclick="addLI()">Add</button>
+                    <button onclick="deleteLI()">Delete</button>
+
                     <ul id="list">
                         <li>Java</li>
                         <li>Spring framework</li>
                         <li>Photoshop</li>
                     </ul>
+                    <script>
+            
+                        var inputText = document.getElementById("txt"),
+                             items = document.querySelectorAll("#list li"),
+                             tab = [], index;
+                     
+                         for(var i = 0; i < items.length; i++){
+                             tab.push(items[i].innerHTML);
+                         }
+                         
+                         for(var i = 0; i < items.length; i++){
+                             
+                             items[i].onclick = function(){
+                                 index = tab.indexOf(this.innerHTML);
+                                 console.log(this.innerHTML + " INDEX = " + index);
+                                 
+                                 inputText.value = this.innerHTML;
+                             };
+                             
+                         }
+                        
+                        function refreshArray()
+                        {
+                            tab.length = 0;
+                            items = document.querySelectorAll("#list li");
+                            
+                            for(var i = 0; i < items.length; i++){
+                             tab.push(items[i].innerHTML);
+                           }
+                        }
+                        //ฟังก์ชั่น Add
+                        function addLI(){
+                            
+                            var listNode = document.getElementById("list"),
+                                textNode = document.createTextNode(inputText.value),
+                                liNode = document.createElement("LI");
+                                
+                                liNode.appendChild(textNode);
+                                listNode.appendChild(liNode);
+                                
+                                refreshArray();
+                                
+                                liNode.onclick = function(){
+                                 index = tab.indexOf(liNode.innerHTML);
+                                 console.log(liNode.innerHTML + " INDEX = " + index);
+                                 
+                                 inputText.value = liNode.innerHTML;
+                             };
+                                
+                         }
+                          //ฟังก์ชั่น Delete  
+                          function deleteLI(){
+                              
+                                  refreshArray();
+                                  if(items.length > 0){
+                                      items[index].parentNode.removeChild(items[index]);
+                                      inputText.value = "";
+                                  }
+                          }
+                        
+                    </script>
                 </dd>
                 
                 <dd class="clear"></dd>
